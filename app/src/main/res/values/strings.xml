@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bitcoin Dashboard</string>
+
+    <string-array name="menu">
+        <item>View exchange rate</item>
+    </string-array>
+</resources>
