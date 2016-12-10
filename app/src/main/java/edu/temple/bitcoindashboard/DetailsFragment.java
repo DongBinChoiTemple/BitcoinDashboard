@@ -30,26 +30,26 @@ public class DetailsFragment extends Fragment {
         switch (item) {
             case "exchangeRate":
                 getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_content, new ExchangeRateFragment()).commit();
+                        .replace(R.id.fragment_content, new ExchangeRateFragment()).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "priceChart":
                 getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_content, new PriceChartFragment()).commit();
+                        .replace(R.id.fragment_content, new PriceChartFragment()).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "block":
                 getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_content, new BlockFragment()).commit();
+                        .replace(R.id.fragment_content, new BlockFragment()).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "address":
                 getFragmentManager().beginTransaction()
-                        .add(R.id.fragment_content, new AddressFragment()).commit();
+                        .replace(R.id.fragment_content, new AddressFragment()).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             default:
-                throw new Exception("Item chosen to transition to is invalid");
+                throw new Exception("Invalid item chosen to transition to!");
         }
     }
 
