@@ -39,16 +39,16 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fragment_details, detailsFragment)
                     .commit();
             getFragmentManager().executePendingTransactions();
-            doTransition(menu[0]);
+            doTransition(detailsFragment, menu[0]);
         }
     }
 
     @Override
     public void onFragmentInteraction(String item) {
-        doTransition(item);
+        doTransition(detailsFragment, item);
     }
 
-    private void doTransition(String item){
+    private void doTransition(DetailsFragment detailsFragment, String item) {
         if (!twoPanes) { // if displaying only one pane
             getFragmentManager()
                     .beginTransaction()
