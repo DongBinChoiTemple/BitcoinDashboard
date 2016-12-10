@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Bitcoin Dashboard</string>
-
-    <string-array name="menu">
+    <string-array name="menu_main">
         <item>View exchange rate</item>
+        <item>View price chart</item>
+        <item>Block explorer</item>
+        <item>Check an address\'s balance</item>
     </string-array>
+    <string name="show_chart_thru">Show price history for the last&#8230;</string>
+    <string name="radio_1d">24 hours</string>
+    <string name="radio_5d">5 days</string>
 </resources>

@@ -26,24 +26,30 @@ public class DetailsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
-    public void transition(String item) {
+    public void transition(String item) throws Exception {
         switch (item) {
             case "exchangeRate":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new ExchangeRateFragment()).commit();
+                        .add(R.id.fragment_content, new ExchangeRateFragment()).commit();
                 getFragmentManager().executePendingTransactions();
+                break;
             case "priceChart":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new PriceChartFragment()).commit();
+                        .add(R.id.fragment_content, new PriceChartFragment()).commit();
                 getFragmentManager().executePendingTransactions();
+                break;
             case "block":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new BlockFragment()).commit();
+                        .add(R.id.fragment_content, new BlockFragment()).commit();
                 getFragmentManager().executePendingTransactions();
+                break;
             case "address":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new AddressFragment()).commit();
+                        .add(R.id.fragment_content, new AddressFragment()).commit();
                 getFragmentManager().executePendingTransactions();
+                break;
+            default:
+                throw new Exception("Item chosen to transition to is invalid");
         }
     }
 

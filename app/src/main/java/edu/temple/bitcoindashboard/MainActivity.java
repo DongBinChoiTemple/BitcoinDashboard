@@ -60,7 +60,11 @@ public class MainActivity extends AppCompatActivity
         getFragmentManager().executePendingTransactions();
         if (item != null) {
             if (twoPanes)
-                detailsFragment.transition(item);
+                try {
+                    detailsFragment.transition(item);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
         }
         super.onResume();
     }
@@ -73,7 +77,11 @@ public class MainActivity extends AppCompatActivity
     private void doTransition(String item){
         this.item = item;
         if (twoPanes) { // if displaying two panes (large or landscape)
-            detailsFragment.transition(item);
+            try {
+                detailsFragment.transition(item);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         } else { // if displaying only one pane
             getFragmentManager()
                     .beginTransaction()
@@ -81,7 +89,11 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack(null)
                     .commit();
             getFragmentManager().executePendingTransactions();
-            detailsFragment.transition(item);
+            try {
+                detailsFragment.transition(item);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

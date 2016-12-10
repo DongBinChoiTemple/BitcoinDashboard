@@ -21,6 +21,18 @@
         <service
             android:name=".ExchangeRateService"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".PriceChartService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".AddressService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".BlockService"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 

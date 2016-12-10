@@ -23,6 +23,7 @@ public class NavFragment extends Fragment {
     public OnFragmentInteractionListener activity;
     boolean twoPaneParent;
 
+    String[] menu = {"exchangeRate", "priceChart", "block", "address"};
     public NavFragment() {
         // Required empty public constructor
     }
@@ -43,9 +44,7 @@ public class NavFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_nav, container, false);
         ListView lv = (ListView) v.findViewById(R.id.listView);
-        String[] menuItemNames
-                = {"exchangeRate", "priceChart", "block", "address"};
-        Adapter a = new MyAdapter(menuItemNames);
+        Adapter a = new MyAdapter(menu);
         lv.setAdapter((ListAdapter)a);
         return v;
     }
@@ -74,9 +73,9 @@ public class NavFragment extends Fragment {
 
             layout.setOrientation(LinearLayout.VERTICAL);
 
-            String[] menu = getResources().getStringArray(R.array.menu_main);
-            tv.setText(menu[position]);
-            final String item = menu[position];
+            String[] menuItemNames = getResources().getStringArray(R.array.menu_main);
+            tv.setText(menuItemNames[position]);
+            final String item = getItem(position);
             if (item != null){
                 tv.setTextSize(20);
                 tv.setOnClickListener(new View.OnClickListener() {
