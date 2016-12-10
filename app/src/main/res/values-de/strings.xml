@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bitcoin-Dashboard</string>
-    <string-array name="menu">
+    <string-array name="menu_main">
         <item>Aktuellen Wechselkurs anzeigen</item>
+        <item>BTC/USD-Diagramm anzeigen</item>
+        <item>Block-Explorer</item>
+        <item>Guthaben einer Bitcoin-Adresse abfragen</item>
     </string-array>
+    <string name="show_chart_thru">Kursverlauf anzeigen über die letzten&#8230;</string>
+    <string name="radio_1d">24 Stunden</string>
+    <string name="radio_5d">5 Tage</string>
 </resources>
