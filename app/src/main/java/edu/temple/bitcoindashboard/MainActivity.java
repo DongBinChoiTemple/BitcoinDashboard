@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity
         implements NavFragment.OnFragmentInteractionListener {
+    String[] menu = {"exchangeRate", "priceChart", "block", "address"};
     String item;
     boolean twoPanes;
     NavFragment navFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
                 getFragmentManager().beginTransaction()
                         .add(R.id.fragment_details, detailsFragment)
                         .commit();
+                getFragmentManager().executePendingTransactions();
             }
         }
     }
@@ -68,18 +70,18 @@ public class MainActivity extends AppCompatActivity
         doTransition(item);
     }
 
-
     private void doTransition(String item){
-        if (twoPanes) {
+        this.item = item;
+        if (twoPanes) { // if displaying two panes (large or landscape)
             detailsFragment.transition(item);
-        } else {
+        } else { // if displaying only one pane
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_details, detailsFragment)
+                    .replace(R.id.fragment_nav, detailsFragment)
                     .addToBackStack(null)
                     .commit();
             getFragmentManager().executePendingTransactions();
-            detailsFragment.changeColor(item);
+            detailsFragment.transition(item);
         }
     }
 }

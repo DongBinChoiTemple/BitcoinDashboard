@@ -20,9 +20,8 @@ import android.widget.TextView;
  */
 public class NavFragment extends Fragment {
 
-    boolean twoPaneParent;
-
     public OnFragmentInteractionListener activity;
+    boolean twoPaneParent;
 
     public NavFragment() {
         // Required empty public constructor
@@ -45,26 +44,25 @@ public class NavFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_nav, container, false);
         ListView lv = (ListView) v.findViewById(R.id.listView);
         String[] menuItemNames
-                = {"viewCurrentExchangeRate", "getPriceChart", "viewBlockInfo", "viewBitcoinAddress"};
+                = {"exchangeRate", "priceChart", "block", "address"};
         Adapter a = new MyAdapter(menuItemNames);
         lv.setAdapter((ListAdapter)a);
         return v;
     }
 
-    public class MyAdapter implements ListAdapter {
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String item);
+    }
+
+    public class MyAdapter extends BaseAdapter {
         String[] menu;
         public MyAdapter (String[] array){
             menu = array;
         }
 
         @Override
-        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-        }
-
-        @Override
         public void unregisterDataSetObserver(DataSetObserver observer) {
-
+            super.unregisterDataSetObserver(observer);
         }
 
         @Override
@@ -76,11 +74,11 @@ public class NavFragment extends Fragment {
 
             layout.setOrientation(LinearLayout.VERTICAL);
 
-            String[] menu = getResources().getStringArray(R.array.menu);
+            String[] menu = getResources().getStringArray(R.array.menu_main);
             tv.setText(menu[position]);
             final String item = menu[position];
             if (item != null){
-                tv.setTextSize(30);
+                tv.setTextSize(20);
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -95,21 +93,6 @@ public class NavFragment extends Fragment {
         }
 
         @Override
-        public int getItemViewType(int i) {
-            return 0;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
         public String getItem(int position){
             return menu[position];
         }
@@ -119,27 +102,9 @@ public class NavFragment extends Fragment {
             return 0;
         }
 
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
         public int getCount(){
             return menu.length;
         }
 
-        @Override
-        public boolean areAllItemsEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isEnabled(int i) {
-            return false;
-        }
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String item);
     }
 }
