@@ -23,14 +23,10 @@ public class ExchangeRateFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static ExchangeRateFragment newInstance(String param1, String param2) {
+    public static ExchangeRateFragment newInstance() {
         ExchangeRateFragment fragment = new ExchangeRateFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -45,13 +41,16 @@ public class ExchangeRateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exchange_rate, container, false);
+        View v = inflater.inflate(R.layout.fragment_exchange_rate, container, false);
+        if (v.findViewById(R.id.display_exrate) != null) {
+            ExchangeRateTask task = new ExchangeRateTask();
+            task.execute("https://blockchain.info/ticker");
+        }
+        return v;
     }
 
     public void onStart(){
         super.onStart();
-        ExchangeRateTask task = new ExchangeRateTask();
-        task.execute("https://blockchain.info/ticker");
     }
 
     @Override
@@ -87,5 +86,4 @@ public class ExchangeRateFragment extends Fragment {
                             dollarsPerBitcoin + " USD/BTC");
         }
     }
-
 }

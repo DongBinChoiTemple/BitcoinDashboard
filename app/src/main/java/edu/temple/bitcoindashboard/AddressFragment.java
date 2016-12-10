@@ -1,62 +1,99 @@
 package edu.temple.bitcoindashboard;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddressFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddressFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class AddressFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    ArrayList<String> storedAddresses;
+    boolean connected;
+    AddressService mAddressService;
+    String address;
+    BaseAdapter mAdapter;
+    final Handler serviceHandler = new Handler(new Handler.Callback() {
+        public boolean handleMessage(Message msg) {
+            try {
+                JSONObject blockObject = new JSONObject((String) msg.obj);
+                String address = blockObject.getJSONObject("data").getString("address");
+                if (!storedAddresses.contains(address)) {
+                    storedAddresses.add(address);
+                    mAdapter.notifyDataSetChanged();
+                }
+                ((TextView) getActivity().findViewById(R.id.display_address))
+                        .setText(getString(R.string.address) + ": " + address);
+                ((TextView) getActivity().findViewById(R.id.display_balance))
+                        .setText(getString(R.string.balance) + ": "
+                                + blockObject.getJSONObject("data").getString("balance"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+    });
+    ServiceConnection myConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AddressService.TestBinder binder = (AddressService.TestBinder) service;
+            mAddressService = binder.getService();
+            connected = true;
+            getActivity().findViewById(R.id.button_go).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    address = ((EditText) getActivity().findViewById(R.id.enter_address)).getText().toString();
+                    mAddressService.getAddressInfo(serviceHandler, address);
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            connected = false;
+        }
+    };
 
     public AddressFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddressFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static AddressFragment newInstance(String param1, String param2) {
         AddressFragment fragment = new AddressFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (savedInstanceState != null) {
+            storedAddresses = savedInstanceState.getStringArrayList("storedAddresses");
+        } else {
+            storedAddresses = new ArrayList<>();
         }
     }
 
@@ -64,45 +101,104 @@ public class AddressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_address, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        View v = inflater.inflate(R.layout.fragment_address, container, false);
+        ListView listView = (ListView) v.findViewById(R.id.listview_addresses);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        mAdapter = new MyAdapter(storedAddresses);
+        // Apply the adapter to the spinner
+        // set up listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> AdapterView, View view, int i, long l) {
+                mAddressService.getAddressInfo(serviceHandler, storedAddresses.get(i));
+            }
+        });
+        listView.setAdapter(mAdapter);
+        return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onStart() {
+        super.onStart();
+        Intent serviceIntent = new Intent(getActivity(), AddressService.class);
+        getActivity().bindService(serviceIntent, myConnection, Context.BIND_AUTO_CREATE);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("storedAddresses", storedAddresses);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unbindService(myConnection);
+    }
+
+    public class MyAdapter extends BaseAdapter {
+        ArrayList<String> addresses;
+
+        public MyAdapter(ArrayList<String> addresses) {
+            this.addresses = addresses;
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver observer) {
+            super.unregisterDataSetObserver(observer);
+        }
+
+        @Override
+        public View getView(int position, View oldView, ViewGroup parent) {
+
+            TextView tv = new TextView((Context) getActivity());
+
+            LinearLayout layout = new LinearLayout((Context) getActivity());
+
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            tv.setText(getItem(position));
+            final String address = getItem(position);
+            if (address != null) {
+                tv.setTextSize(15);
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mAddressService.getAddressInfo(serviceHandler, address);
+                    }
+                });
+
+                layout.addView(tv);
+            }
+
+            return layout;
+        }
+
+        @Override
+        public String getItem(int position) {
+            return addresses.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        public int getCount() {
+            return addresses.size();
+        }
+
+    }
+
+
 }

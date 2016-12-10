@@ -30,22 +30,26 @@ public class DetailsFragment extends Fragment {
         switch (item) {
             case "exchangeRate":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new ExchangeRateFragment()).commit();
+                        .replace(R.id.fragment_content, new ExchangeRateFragment())
+                        .addToBackStack(null).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "priceChart":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new PriceChartFragment()).commit();
+                        .replace(R.id.fragment_content, new PriceChartFragment())
+                        .addToBackStack(null).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "block":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new BlockFragment()).commit();
+                        .replace(R.id.fragment_content, new BlockFragment())
+                        .addToBackStack(null).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             case "address":
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new AddressFragment()).commit();
+                        .replace(R.id.fragment_content, new AddressFragment())
+                        .addToBackStack(null).commit();
                 getFragmentManager().executePendingTransactions();
                 break;
             default:
