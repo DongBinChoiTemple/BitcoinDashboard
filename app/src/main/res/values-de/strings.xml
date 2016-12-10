@@ -10,4 +10,17 @@
     <string name="show_chart_thru">Kursverlauf anzeigen über die letzten&#8230;</string>
     <string name="radio_1d">24 Stunden</string>
     <string name="radio_5d">5 Tage</string>
+    <string name="exchange_rate">Wechselkurs</string>
+    <string name="button_prev">Vorheriger</string>
+    <string name="button_next">Nächster</string>
+    <string name="enter_block_number">Blocknummer eingeben</string>
+    <string name="block_number">Blocknummer</string>
+    <string name="hash">Hash</string>
+    <string name="timestamp">Zeitstempel</string>
+    <string name="prev_block">Vorheriger Block</string>
+    <string name="next_block">Nächster Block</string>
+    <string name="recent_addresses">Zuletzt angesehene Adressen</string>
+    <string name="address">Adresse</string>
+    <string name="balance">Guthaben</string>
+    <string name="enter_address">Adresse eingeben</string>
 </resources>

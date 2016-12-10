@@ -9,4 +9,17 @@
     <string name="show_chart_thru">Show price history for the last&#8230;</string>
     <string name="radio_1d">24 hours</string>
     <string name="radio_5d">5 days</string>
+    <string name="exchange_rate">Exchange rate</string>
+    <string name="button_prev">Previous</string>
+    <string name="button_next">Next</string>
+    <string name="enter_block_number">Enter block number</string>
+    <string name="block_number">Block number</string>
+    <string name="hash">Hash</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="prev_block">Previous block</string>
+    <string name="next_block">Next block</string>
+    <string name="recent_addresses">Recently viewed addresses</string>
+    <string name="address">Address</string>
+    <string name="balance">Balance</string>
+    <string name="enter_address">Enter address</string>
 </resources>
