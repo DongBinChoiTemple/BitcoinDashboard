@@ -14,11 +14,18 @@ import android.view.ViewGroup;
  */
 public class DetailsFragment extends Fragment {
 
+    Fragment contentFragment;
+    AddressFragment mAddressFragment;
+
     public DetailsFragment() {
         // Required empty public constructor
     }
 
-
+    public DetailsFragment newInstance() {
+        DetailsFragment f = new DetailsFragment();
+        f.mAddressFragment = new AddressFragment();
+        return f;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,32 +36,28 @@ public class DetailsFragment extends Fragment {
     public void transition(String item) throws Exception {
         switch (item) {
             case "exchangeRate":
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new ExchangeRateFragment())
-                        .addToBackStack(null).commit();
-                getFragmentManager().executePendingTransactions();
+                contentFragment = new ExchangeRateFragment();
                 break;
             case "priceChart":
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new PriceChartFragment())
-                        .addToBackStack(null).commit();
-                getFragmentManager().executePendingTransactions();
+                contentFragment = new PriceChartFragment();
                 break;
             case "block":
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new BlockFragment())
-                        .addToBackStack(null).commit();
-                getFragmentManager().executePendingTransactions();
+                contentFragment = new BlockFragment();
                 break;
             case "address":
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_content, new AddressFragment())
-                        .addToBackStack(null).commit();
-                getFragmentManager().executePendingTransactions();
+                contentFragment = new AddressFragment();
                 break;
+            case "quit":
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
             default:
                 throw new Exception("Invalid item chosen to transition to!");
         }
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_content, contentFragment)
+                .commit();
+        getFragmentManager().executePendingTransactions();
     }
+
 
 }

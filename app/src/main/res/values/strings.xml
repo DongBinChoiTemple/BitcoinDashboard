@@ -5,6 +5,7 @@
         <item>View price chart</item>
         <item>Block explorer</item>
         <item>Check an address\'s balance</item>
+        <item>Quit</item>
     </string-array>
     <string name="show_chart_thru">Show price history for the last&#8230;</string>
     <string name="radio_1d">24 hours</string>

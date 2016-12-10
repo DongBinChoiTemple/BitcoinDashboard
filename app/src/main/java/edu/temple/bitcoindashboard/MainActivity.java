@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity
         implements NavFragment.OnFragmentInteractionListener {
-    String[] menu = {"exchangeRate", "priceChart", "block", "address"};
+    String[] menu = {"exchangeRate", "priceChart", "block", "address", "quit"};
     boolean twoPanes;
     NavFragment navFragment;
     DetailsFragment detailsFragment;

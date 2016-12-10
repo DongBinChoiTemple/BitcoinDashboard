@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.temple.bitcoindashboard">
 
-    <user-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,10 +20,6 @@
         </activity>
 
         <service
-            android:name=".ExchangeRateService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".PriceChartService"
             android:enabled="true"
             android:exported="true" />
@@ -33,7 +30,7 @@
         <service
             android:name=".BlockService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
     </application>
 
 </manifest>

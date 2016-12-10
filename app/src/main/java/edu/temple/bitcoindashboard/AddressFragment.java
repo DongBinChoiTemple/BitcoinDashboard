@@ -88,18 +88,23 @@ public class AddressFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("storedAddresses", storedAddresses);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            storedAddresses = savedInstanceState.getStringArrayList("storedAddresses");
-        } else {
-            storedAddresses = new ArrayList<>();
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        storedAddresses = new ArrayList<>();
+        if (savedInstanceState != null) {
+            storedAddresses = savedInstanceState.getStringArrayList("storedAddresses");
+        }
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_address, container, false);
         ListView listView = (ListView) v.findViewById(R.id.listview_addresses);
@@ -132,12 +137,6 @@ public class AddressFragment extends Fragment {
         super.onStart();
         Intent serviceIntent = new Intent(getActivity(), AddressService.class);
         getActivity().bindService(serviceIntent, myConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putStringArrayList("storedAddresses", storedAddresses);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class NavFragment extends Fragment {
     public OnFragmentInteractionListener activity;
     boolean twoPaneParent;
 
-    String[] menu = {"exchangeRate", "priceChart", "block", "address"};
+    String[] menu = {"exchangeRate", "priceChart", "block", "address", "quit"};
     public NavFragment() {
         // Required empty public constructor
     }

@@ -6,6 +6,7 @@
         <item>BTC/USD-Diagramm anzeigen</item>
         <item>Block-Explorer</item>
         <item>Guthaben einer Bitcoin-Adresse abfragen</item>
+        <item>Anwendung beenden</item>
     </string-array>
     <string name="show_chart_thru">Kursverlauf anzeigen über die letzten&#8230;</string>
     <string name="radio_1d">24 Stunden</string>
