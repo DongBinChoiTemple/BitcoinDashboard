@@ -8,8 +8,8 @@
         <item>Guthaben einer Bitcoin-Adresse abfragen</item>
         <item>Anwendung beenden</item>
     </string-array>
-    <string name="show_chart_thru">Kursverlauf anzeigen über die letzten&#8230;</string>
-    <string name="radio_1d">24 Stunden</string>
+    <string name="show_chart_thru">Kursverlauf anzeigen über&#8230;</string>
+    <string name="radio_1d">1 Tag</string>
     <string name="radio_5d">5 Tage</string>
     <string name="exchange_rate">Wechselkurs</string>
     <string name="button_prev">Vorheriger</string>

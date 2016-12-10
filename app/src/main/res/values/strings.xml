@@ -7,8 +7,8 @@
         <item>Check an address\'s balance</item>
         <item>Quit</item>
     </string-array>
-    <string name="show_chart_thru">Show price history for the last&#8230;</string>
-    <string name="radio_1d">24 hours</string>
+    <string name="show_chart_thru">Show price history for&#8230;</string>
+    <string name="radio_1d">1 day</string>
     <string name="radio_5d">5 days</string>
     <string name="exchange_rate">Exchange rate</string>
     <string name="button_prev">Previous</string>
