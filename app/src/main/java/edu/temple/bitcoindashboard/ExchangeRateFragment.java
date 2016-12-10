@@ -81,7 +81,10 @@ public class ExchangeRateFragment extends Fragment {
             }
         }
         protected void onPostExecute(Double result){
-            ((TextView)getActivity().findViewById(R.id.display_exrate)).setText(String.valueOf(result));
+            double dollarsPerBitcoin = Double.parseDouble(String.valueOf(result));
+            ((TextView)getActivity().findViewById(R.id.display_exrate))
+                    .setText(getString(R.string.exchange_rate) + ": " +
+                            dollarsPerBitcoin + " USD/BTC");
         }
     }
 
