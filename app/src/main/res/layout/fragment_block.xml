@@ -1,7 +1,93 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.temple.bitcoindashboard.BlockFragment">
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/enter_block_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/enter_block_number"
+        android:inputType="number"
+        android:selectAllOnFocus="false" />
+
+    <Button
+        android:id="@+id/button_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:text="@android:string/search_go" />
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_go"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/button_go"
+        android:text="@string/button_next" />
+
+    <Button
+        android:id="@+id/button_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button_go"
+        android:layout_alignBottom="@+id/button_go"
+        android:layout_marginEnd="11dp"
+        android:layout_toStartOf="@+id/button_go"
+        android:text="@string/button_prev" />
+
+    <TextView
+        android:id="@+id/display_nb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_prev"
+        android:layout_marginTop="57dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/display_hash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/display_nb"
+        android:layout_below="@+id/display_nb"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/display_prev_block_nb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/display_time_utc"
+        android:layout_below="@+id/display_time_utc"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/display_next_block_nb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/display_prev_block_nb"
+        android:layout_below="@+id/display_prev_block_nb"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/display_time_utc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/display_hash"
+        android:text="" />
+
+</RelativeLayout>
