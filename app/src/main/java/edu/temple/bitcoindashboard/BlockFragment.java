@@ -10,7 +10,13 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -58,27 +64,6 @@ public class BlockFragment extends Fragment {
             BlockService.TestBinder binder = (BlockService.TestBinder) service;
             mBlockService = binder.getService();
             connected = true;
-            getActivity().findViewById(R.id.button_go).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    blockNo = Integer.parseInt
-                            (((EditText) getActivity().findViewById(R.id.enter_block_no))
-                                    .getText().toString());
-                    mBlockService.getBlockInfo(serviceHandler, blockNo);
-                }
-            });
-            getActivity().findViewById(R.id.button_prev).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mBlockService.goToPrevBlock(serviceHandler, blockNo);
-                }
-            });
-            getActivity().findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mBlockService.goToNextBlock(serviceHandler, blockNo);
-                }
-            });
         }
 
         @Override
@@ -102,6 +87,15 @@ public class BlockFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.appbar_block, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         Intent serviceIntent = new Intent(getActivity(), BlockService.class);
@@ -115,9 +109,29 @@ public class BlockFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_previous:
+                mBlockService.goToPrevBlock(serviceHandler, blockNo);
+                return true;
+            case R.id.action_next:
+                mBlockService.goToNextBlock(serviceHandler, blockNo);
+                return true;
+            case R.id.action_search:
+                blockNo = Integer.parseInt
+                        (((EditText) getActivity().findViewById(R.id.enter_block_no))
+                                .getText().toString());
+                mBlockService.getBlockInfo(serviceHandler, blockNo);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_block, container, false);
     }
 

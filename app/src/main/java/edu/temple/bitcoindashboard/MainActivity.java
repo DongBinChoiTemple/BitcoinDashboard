@@ -2,6 +2,7 @@ package edu.temple.bitcoindashboard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import java.io.File;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         //  Determine if only one or two panes are visible
         twoPanes = (findViewById(R.id.fragment_details) != null);
         navFragment = new NavFragment();

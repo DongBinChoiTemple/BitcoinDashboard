@@ -14,6 +14,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -84,7 +87,6 @@ public class AddressFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static AddressFragment newInstance(String param1, String param2) {
         AddressFragment fragment = new AddressFragment();
         return fragment;
@@ -102,8 +104,14 @@ public class AddressFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.appbar_address, menu);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         storedAddresses = new ArrayList<>();
         if (savedInstanceState != null) {
             storedAddresses = savedInstanceState.getStringArrayList("storedAddresses");
@@ -152,13 +160,6 @@ public class AddressFragment extends Fragment {
         super.onStart();
         Intent serviceIntent = new Intent(getActivity(), AddressService.class);
         getActivity().bindService(serviceIntent, myConnection, Context.BIND_AUTO_CREATE);
-        getActivity().findViewById(R.id.button_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                address = ((EditText) getActivity().findViewById(R.id.enter_address)).getText().toString();
-                mAddressService.getAddressInfo(serviceHandler, address);
-            }
-        });
     }
 
     public void onPause(){
@@ -234,6 +235,18 @@ public class AddressFragment extends Fragment {
             return addresses.size() < 100 ? addresses.size() : 100;
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                address = ((EditText) getActivity().findViewById(R.id.enter_address))
+                        .getText().toString();
+                mAddressService.getAddressInfo(serviceHandler, address);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

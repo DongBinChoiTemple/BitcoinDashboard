@@ -24,4 +24,8 @@
     <string name="address">Adresse</string>
     <string name="balance">Guthaben</string>
     <string name="enter_address">Adresse eingeben</string>
+    <string name="action_previous">Zurück</string>
+    <string name="action_next">Vorwärts</string>
+    <string name="action_search">Suche</string>
+    <string name="action_settings">Einstellungen</string>
 </resources>

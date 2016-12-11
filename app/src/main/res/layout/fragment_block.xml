@@ -21,73 +21,46 @@
         android:inputType="number"
         android:selectAllOnFocus="false" />
 
-    <Button
-        android:id="@+id/button_go"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/display_next_block_nb"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
-        android:text="@android:string/search_go" />
-
-    <Button
-        android:id="@+id/button_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button_go"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/button_go"
-        android:text="@string/button_next" />
-
-    <Button
-        android:id="@+id/button_prev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_go"
-        android:layout_alignBottom="@+id/button_go"
-        android:layout_marginEnd="11dp"
-        android:layout_toStartOf="@+id/button_go"
-        android:text="@string/button_prev" />
+        android:text="@string/next_block"
+        android:layout_below="@+id/enter_block_no"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
 
     <TextView
         android:id="@+id/display_nb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button_prev"
-        android:layout_marginTop="57dp"
-        android:text="" />
+        android:text="@string/block_number"
+        android:layout_below="@+id/display_next_block_nb"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/display_hash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/display_nb"
+        android:text="@string/hash"
         android:layout_below="@+id/display_nb"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/display_prev_block_nb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/display_time_utc"
-        android:layout_below="@+id/display_time_utc"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/display_next_block_nb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/display_prev_block_nb"
-        android:layout_below="@+id/display_prev_block_nb"
-        android:text="" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/display_time_utc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:text="@string/timestamp"
         android:layout_below="@+id/display_hash"
-        android:text="" />
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/prev_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enter_block_no"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/display_prev_block_nb" />
 
 </RelativeLayout>

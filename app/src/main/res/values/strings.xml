@@ -23,4 +23,8 @@
     <string name="address">Address</string>
     <string name="balance">Balance</string>
     <string name="enter_address">Enter address</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_next">Next</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
 </resources>

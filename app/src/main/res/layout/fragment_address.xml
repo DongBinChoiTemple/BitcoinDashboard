@@ -26,13 +26,6 @@
             android:hint="@string/enter_address"
             android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/button_go"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_weight=".25"
-            android:text="@android:string/search_go" />
     </LinearLayout>
 
     <TextView
