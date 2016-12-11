@@ -2,6 +2,9 @@ package edu.temple.bitcoindashboard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
         implements NavFragment.OnFragmentInteractionListener {
@@ -9,6 +12,7 @@ public class MainActivity extends AppCompatActivity
     boolean twoPanes;
     NavFragment navFragment;
     DetailsFragment detailsFragment;
+    public static final String FILE_NAME = "MyFile";
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -25,10 +29,6 @@ public class MainActivity extends AppCompatActivity
         detailsFragment = new DetailsFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_nav, navFragment).commit();
         getFragmentManager().executePendingTransactions();
-        if (savedInstanceState != null) {
-        }
-        else {
-        }
     }
 
     protected void onResume(){
@@ -62,5 +62,9 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
     }
 }

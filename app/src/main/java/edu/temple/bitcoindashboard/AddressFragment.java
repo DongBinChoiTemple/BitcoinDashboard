@@ -1,5 +1,6 @@
 package edu.temple.bitcoindashboard;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,16 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class AddressFragment extends Fragment {
 
-
+    public static final String FILE_NAME = "MyFile";
     ArrayList<String> storedAddresses;
     boolean connected;
     AddressService mAddressService;
@@ -41,8 +48,11 @@ public class AddressFragment extends Fragment {
                 String address = blockObject.getJSONObject("data").getString("address");
                 if (!storedAddresses.contains(address)) {
                     storedAddresses.add(address);
-                    mAdapter.notifyDataSetChanged();
+                    if (storedAddresses.size() > 100){
+                        storedAddresses.remove(0);
+                    }
                 }
+                mAdapter.notifyDataSetChanged();
                 ((TextView) getActivity().findViewById(R.id.display_address))
                         .setText(getString(R.string.address) + ": " + address);
                 ((TextView) getActivity().findViewById(R.id.display_balance))
@@ -62,13 +72,6 @@ public class AddressFragment extends Fragment {
             AddressService.TestBinder binder = (AddressService.TestBinder) service;
             mAddressService = binder.getService();
             connected = true;
-            getActivity().findViewById(R.id.button_go).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    address = ((EditText) getActivity().findViewById(R.id.enter_address)).getText().toString();
-                    mAddressService.getAddressInfo(serviceHandler, address);
-                }
-            });
         }
 
         @Override
@@ -105,13 +108,24 @@ public class AddressFragment extends Fragment {
         if (savedInstanceState != null) {
             storedAddresses = savedInstanceState.getStringArrayList("storedAddresses");
         }
+        FileInputStream fis;
+        try {
+            fis = getActivity().openFileInput(FILE_NAME);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            storedAddresses = (ArrayList<String>) ois.readObject();
+            Log.v("AddressFragment", "Loaded storedAddresses from file");
+            Log.v("AddressFragment", "storedAddresses.size() = " + storedAddresses.size());
+            for (String address : storedAddresses){
+                Log.v("AddressFragment", address);
+            }
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_address, container, false);
         ListView listView = (ListView) v.findViewById(R.id.listview_addresses);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         mAdapter = new MyAdapter(storedAddresses);
-        // Apply the adapter to the spinner
-        // set up listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> AdapterView, View view, int i, long l) {
@@ -124,6 +138,7 @@ public class AddressFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+
         super.onAttach(context);
     }
 
@@ -137,6 +152,28 @@ public class AddressFragment extends Fragment {
         super.onStart();
         Intent serviceIntent = new Intent(getActivity(), AddressService.class);
         getActivity().bindService(serviceIntent, myConnection, Context.BIND_AUTO_CREATE);
+        getActivity().findViewById(R.id.button_go).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                address = ((EditText) getActivity().findViewById(R.id.enter_address)).getText().toString();
+                mAddressService.getAddressInfo(serviceHandler, address);
+            }
+        });
+    }
+
+    public void onPause(){
+        super.onPause();
+        try {
+            FileOutputStream fos = getActivity().openFileOutput(FILE_NAME, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(storedAddresses);
+            oos.close();
+            File file = new File(getActivity().getFilesDir(), FILE_NAME);
+            Log.v("AddressFragment", "Saved storedAddresses to file");
+            file.deleteOnExit();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -194,7 +231,7 @@ public class AddressFragment extends Fragment {
         }
 
         public int getCount() {
-            return addresses.size();
+            return addresses.size() < 100 ? addresses.size() : 100;
         }
 
     }

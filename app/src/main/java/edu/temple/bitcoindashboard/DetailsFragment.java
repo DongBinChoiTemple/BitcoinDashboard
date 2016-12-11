@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 public class DetailsFragment extends Fragment {
 
     Fragment contentFragment;
-    AddressFragment mAddressFragment;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -21,7 +20,6 @@ public class DetailsFragment extends Fragment {
 
     public DetailsFragment newInstance() {
         DetailsFragment f = new DetailsFragment();
-        f.mAddressFragment = new AddressFragment();
         return f;
     }
     @Override
